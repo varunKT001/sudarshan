@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TomperResize</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon//favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon//favicon-16x16.png"
+    />
+    <link rel="manifest" href="./favicon//site.webmanifest" />
+  </head>
+  <body>
+    <!-- MAIN -->
+    <div class="container">
+      <div class="alert">
+        <p>please select an image</p>
+        <p onclick="closeAlert()"><img src="./images/close.svg" alt="" /></p>
+      </div>
+      <div class="form-control">
+        <label for="file">
+          <img src="./images/add_circle.svg" alt="" />
+          <p id="filename"></p>
+          <input
+            type="file"
+            accept="jpeg, png, jpg"
+            id="file"
+            onchange="onFileSelect()"
+          />
+        </label>
+        <label for="width">width(px) : </label>
+        <input
+          type="number"
+          name="width"
+          placeholder="Width in px"
+          id="width"
+          value="450"
+        />
+        <label for="heigth">height(px) : </label>
+        <input
+          type="number"
+          name="height"
+          placeholder="Height in px"
+          id="height"
+          value="450"
+        />
+        <button onclick="compressImage()">resize</button>
+      </div>
+      <div class="img-container">
+        <div class="size-container">
+          <h4 id="old"></h4>
+          <h4 id="new"></h4>
+        </div>
+        <img src="" alt="" id="compressed" />
+        <button id="download-btn">
+          <a id="download" target="_blank" download="tomperimage">download</a>
+        </button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p align="center">Made with ♥ by Varun Tiwari</p>
+      <div class="rounded-social-buttons">
+        <a
+          class="social-button facebook"
+          href="https://www.facebook.com/people/Varun-Tiwari/100057310502325/"
+          target="_blank"
+          ><i class="fab fa-facebook-f"></i
+        ></a>
+        <a
+          class="social-button linkedin"
+          href="https://linkedin.com/in/varun-tiwari-454591178"
+          target="_blank"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <a
+          class="social-button instagram"
+          href="https://www.instagram.com/varuntiwari55/"
+          target="_blank"
+          ><i class="fab fa-instagram"></i
+        ></a>
+      </div>
+    </footer>
+    <script src="index.js"></script>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+      integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
