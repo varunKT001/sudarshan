@@ -28,9 +28,13 @@ const resizeImage = async () => {
 
 const compressImage = async () => {
   const file = document.getElementById('file1').files[0];
+  const originalSize = document.getElementById('original-size').checked;
   if (file) {
     initLoader(1);
     const imageB64 = await convertBase64(file);
+    if (originalSize) {
+      document.getElementById('how').value = calculateImageSize(imageB64);
+    }
     const options = {
       maxSizeMB: parseInt(document.getElementById('max-size').value) / 1024,
       maxWidthOrHeight: parseInt(document.getElementById('how').value),
@@ -43,10 +47,21 @@ const compressImage = async () => {
       return;
     }
     if (options.initialQuality > 100) {
-      openAlert(1, 'compression range from 0 - 100');
+      openAlert(1, 'compression cannot be greater than 100');
       stopLoader(1);
       return;
     }
+    if (options.initialQuality <= 0) {
+      openAlert(1, 'compression cannot be less or equal to 0');
+      stopLoader(1);
+      return;
+    }
+    if (options.maxWidthOrHeight <= 1) {
+      openAlert(1, 'width or heigth cannot be less or equal to 1');
+      stopLoader(1);
+      return;
+    }
+
     const compressedImg = await imageCompression(file, options);
     const newB64 = await convertBase64(compressedImg);
     displayImages(imageB64, newB64, 1);
@@ -76,6 +91,7 @@ async function reduceFileSize(
   MAX_HEIGHT = HEIGHT
 ) {
   let resized_base64 = await new Promise((resolve) => {
+    let maintainAspectRatio = document.getElementById('aspect-ratio').checked;
     let img = new Image();
     img.src = base64Str;
     img.onload = () => {
@@ -84,7 +100,7 @@ async function reduceFileSize(
       let width = img.width;
       let height = img.height;
 
-      if (MAX_WIDTH === MAX_HEIGHT) {
+      if (maintainAspectRatio) {
         if (width > height) {
           if (width > MAX_WIDTH) {
             height *= MAX_WIDTH / width;
@@ -153,7 +169,6 @@ function calculateImageSize(image) {
   return Math.round(x_size / 1024);
 }
 function onFileSelect(number) {
-  console.log(number);
   document.getElementsByClassName('filename')[number].innerText =
     document.getElementsByClassName('file')[number].files[0].name;
 }

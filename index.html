@@ -65,6 +65,10 @@
           id="height"
           value="450"
         />
+        <div class="checkbox-container">
+          <input type="checkbox" name="aspect-ratio" id="aspect-ratio" />
+          <label for="aspect-ratio">maintain aspect ration</label>
+        </div>
         <button onclick="resizeImage()">resize</button>
       </div>
       <div class="loader">
@@ -127,6 +131,10 @@
           max="100"
           min="0"
         />
+        <div class="checkbox-container">
+          <input type="checkbox" name="original-size" id="original-size" />
+          <label for="original-size">keep original size</label>
+        </div>
         <button onclick="compressImage()">resize</button>
       </div>
       <div class="loader">
