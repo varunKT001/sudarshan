@@ -33,38 +33,49 @@ const compressImage = async () => {
     initLoader(1);
     const imageB64 = await convertBase64(file);
     if (originalSize) {
-      document.getElementById('how').value = calculateImageSize(imageB64);
-    }
-    const options = {
-      maxSizeMB: parseInt(document.getElementById('max-size').value) / 1024,
-      maxWidthOrHeight: parseInt(document.getElementById('how').value),
-      initialQuality:
-        parseInt(document.getElementById('compression-const').value) / 100,
-    };
-    if (options.maxSizeMB > calculateImageSize(imageB64) / 1024) {
-      openAlert(1, 'max size cannot be greater than original size');
-      stopLoader(1);
-      return;
-    }
-    if (options.initialQuality > 100) {
-      openAlert(1, 'compression cannot be greater than 100');
-      stopLoader(1);
-      return;
-    }
-    if (options.initialQuality <= 0) {
-      openAlert(1, 'compression cannot be less or equal to 0');
-      stopLoader(1);
-      return;
-    }
-    if (options.maxWidthOrHeight <= 1) {
-      openAlert(1, 'width or heigth cannot be less or equal to 1');
-      stopLoader(1);
-      return;
+      let img = new Image();
+      img.src = imageB64;
+      img.onload = () => {
+        document.getElementById('how').value = img.width;
+        console.log('width', img.width);
+        compress();
+      };
+    } else {
+      compress();
     }
 
-    const compressedImg = await imageCompression(file, options);
-    const newB64 = await convertBase64(compressedImg);
-    displayImages(imageB64, newB64, 1);
+    async function compress() {
+      const options = {
+        maxSizeMB: parseInt(document.getElementById('max-size').value) / 1024,
+        maxWidthOrHeight: parseInt(document.getElementById('how').value),
+        initialQuality:
+          parseInt(document.getElementById('compression-const').value) / 100,
+      };
+      if (options.maxSizeMB > calculateImageSize(imageB64) / 1024) {
+        openAlert(1, 'max size cannot be greater than original size');
+        stopLoader(1);
+        return;
+      }
+      if (options.initialQuality > 100) {
+        openAlert(1, 'compression cannot be greater than 100');
+        stopLoader(1);
+        return;
+      }
+      if (options.initialQuality <= 0) {
+        openAlert(1, 'compression cannot be less or equal to 0');
+        stopLoader(1);
+        return;
+      }
+      if (options.maxWidthOrHeight <= 1) {
+        openAlert(1, 'width or heigth cannot be less or equal to 1');
+        stopLoader(1);
+        return;
+      }
+
+      const compressedImg = await imageCompression(file, options);
+      const newB64 = await convertBase64(compressedImg);
+      displayImages(imageB64, newB64, 1);
+    }
   } else {
     openAlert(1);
   }
