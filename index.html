@@ -23,20 +23,30 @@
   </head>
   <body>
     <!-- MAIN -->
-    <div class="container">
+    <!-- RESIZE -->
+    <div class="switch-btn">
+      <span onclick="openResize()" class="active" id="resize-switch"
+        >resize</span
+      >
+      <span onclick="openCompress()" class="" id="compress-switch"
+        >compress</span
+      >
+    </div>
+    <div class="container" id="resize">
       <div class="alert">
-        <p>please select an image</p>
-        <p onclick="closeAlert()"><img src="./images/close.svg" alt="" /></p>
+        <p class="alert-text">please select an image</p>
+        <p onclick="closeAlert(0)"><img src="./images/close.svg" alt="" /></p>
       </div>
       <div class="form-control">
         <label for="file">
           <img src="./images/add_circle.svg" alt="" />
-          <p id="filename"></p>
+          <p class="filename"></p>
           <input
             type="file"
             accept="jpeg, png, jpg"
+            class="file"
             id="file"
-            onchange="onFileSelect()"
+            onchange="onFileSelect(0)"
           />
         </label>
         <label for="width">width(px) : </label>
@@ -55,16 +65,81 @@
           id="height"
           value="450"
         />
-        <button onclick="compressImage()">resize</button>
+        <button onclick="resizeImage()">resize</button>
+      </div>
+      <div class="loader">
+        <img src="./images/loader.svg" alt="" />
       </div>
       <div class="img-container">
         <div class="size-container">
-          <h4 id="old"></h4>
-          <h4 id="new"></h4>
+          <h4 class="old"></h4>
+          <h4 class="new"></h4>
         </div>
-        <img src="" alt="" id="compressed" />
-        <button id="download-btn">
-          <a id="download" target="_blank" download="tomperimage.png"
+        <img src="" alt="" class="compressed" />
+        <button class="download-btn">
+          <a class="download" target="_blank" download="tomperimage.png"
+            >download</a
+          >
+        </button>
+      </div>
+    </div>
+    <!-- COMPRESS -->
+    <div class="container hide" id="compress">
+      <div class="alert">
+        <p class="alert-text">please select an image</p>
+        <p onclick="closeAlert(1)"><img src="./images/close.svg" alt="" /></p>
+      </div>
+      <div class="form-control">
+        <label for="file1">
+          <img src="./images/add_circle.svg" alt="" />
+          <p class="filename"></p>
+          <input
+            type="file"
+            accept="jpeg, png, jpg"
+            class="file"
+            id="file1"
+            onchange="onFileSelect(1)"
+          />
+        </label>
+        <label for="how">maximum height or width(px) : </label>
+        <input
+          type="number"
+          name="how"
+          placeholder="height or width in px"
+          id="how"
+          value="450"
+        />
+        <label for="max-size">maximum size(KB) : </label>
+        <input
+          type="number"
+          name="max-size"
+          placeholder="maximum size"
+          id="max-size"
+          value="100"
+        />
+        <label for="compression-const">compression (0-100) : </label>
+        <input
+          type="number"
+          name="compression-const"
+          placeholder="compression"
+          id="compression-const"
+          value="50"
+          max="100"
+          min="0"
+        />
+        <button onclick="compressImage()">resize</button>
+      </div>
+      <div class="loader">
+        <img src="./images/loader.svg" alt="" />
+      </div>
+      <div class="img-container">
+        <div class="size-container">
+          <h4 class="old"></h4>
+          <h4 class="new"></h4>
+        </div>
+        <img src="" alt="" class="compressed" />
+        <button class="download-btn">
+          <a class="download" target="_blank" download="tomperimage.png"
             >download</a
           >
         </button>
@@ -102,5 +177,7 @@
       integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.15/dist/browser-image-compression.js
+"></script>
   </body>
 </html>

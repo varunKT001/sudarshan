@@ -14,6 +14,10 @@ button {
   letter-spacing: 2px;
   color: white;
   background-color: #2a93ec;
+  transition: all 125ms linear;
+}
+button:hover {
+  transform: scale(1.05);
 }
 p {
   padding: 0;
@@ -27,6 +31,26 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Nunito Sans', sans-serif;
+}
+.loader {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.hide {
+  display: none;
+}
+.active {
+  color: #2a93ec;
+  border-bottom: 3px solid #2a93ec;
+}
+.switch-btn {
+  margin: 2rem 0;
+}
+.switch-btn span {
+  margin: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
 }
 .container {
   width: 30%;
@@ -61,7 +85,20 @@ body {
   border: 3px dashed #2a93ec;
   border-radius: 0.25rem;
 }
+.form-control label[for='file1'] {
+  margin-bottom: 1.5rem;
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed #2a93ec;
+  border-radius: 0.25rem;
+}
 .form-control label[for='file'] img {
+  width: 50px;
+}
+.form-control label[for='file1'] img {
   width: 50px;
 }
 .form-control input[type='file'] {
@@ -95,15 +132,15 @@ body {
 .size-container {
   margin: 1rem;
 }
-#old {
+.old {
   margin: 0;
   color: rgb(255, 0, 0);
 }
-#new {
+.new {
   margin: 0;
   color: rgb(0, 150, 0);
 }
-#download-btn {
+.download-btn {
   margin: 0.5rem;
   display: none;
 }

@@ -8,7 +8,7 @@ var COMPRESSION_CONSTANT = 0;
 
 var TIMEOUT;
 
-const compressImage = async () => {
+const resizeImage = async () => {
   const file = document.getElementById('file').files[0];
   const width = document.getElementById('width').value;
   const height = document.getElementById('height').value;
@@ -17,11 +17,41 @@ const compressImage = async () => {
   WIDTH = width ? parseInt(width) : GLOBAL_WIDTH;
 
   if (file) {
+    initLoader(0);
     const base64 = await convertBase64(file);
     const resized_base64 = await processImage(base64);
-    displayImages(base64, resized_base64);
+    displayImages(base64, resized_base64, 0);
   } else {
-    openAlert();
+    openAlert(0);
+  }
+};
+
+const compressImage = async () => {
+  const file = document.getElementById('file1').files[0];
+  if (file) {
+    initLoader(1);
+    const imageB64 = await convertBase64(file);
+    const options = {
+      maxSizeMB: parseInt(document.getElementById('max-size').value) / 1024,
+      maxWidthOrHeight: parseInt(document.getElementById('how').value),
+      initialQuality:
+        parseInt(document.getElementById('compression-const').value) / 100,
+    };
+    if (options.maxSizeMB > calculateImageSize(imageB64) / 1024) {
+      openAlert(1, 'max size cannot be greater than original size');
+      stopLoader(1);
+      return;
+    }
+    if (options.initialQuality > 100) {
+      openAlert(1, 'compression range from 0 - 100');
+      stopLoader(1);
+      return;
+    }
+    const compressedImg = await imageCompression(file, options);
+    const newB64 = await convertBase64(compressedImg);
+    displayImages(imageB64, newB64, 1);
+  } else {
+    openAlert(1);
   }
 };
 
@@ -94,21 +124,22 @@ async function processImage(res, min_image_size = COMPRESSION_CONSTANT * 100) {
     return null;
   }
 }
-function displayImages(oldB64, newB64) {
-  let paraOld = document.getElementById('old');
-  let paraNew = document.getElementById('new');
+function displayImages(oldB64, newB64, number) {
+  stopLoader(number);
+  let paraOld = document.getElementsByClassName('old')[number];
+  let paraNew = document.getElementsByClassName('new')[number];
 
   paraOld.innerText = `OLD SIZE : ${calculateImageSize(oldB64)}KB`;
   paraNew.innerText = `NEW SIZE : ${calculateImageSize(newB64)}KB`;
 
   //   let oldImg = document.getElementById('original');
-  let newImg = document.getElementById('compressed');
+  let newImg = document.getElementsByClassName('compressed')[number];
 
   //   oldImg.src = oldB64;
   newImg.src = newB64;
 
-  let download = document.getElementById('download');
-  let downloadBtn = document.getElementById('download-btn');
+  let download = document.getElementsByClassName('download')[number];
+  let downloadBtn = document.getElementsByClassName('download-btn')[number];
   download.setAttribute('href', newB64);
   downloadBtn.style.display = 'block';
 }
@@ -121,18 +152,43 @@ function calculateImageSize(image) {
   const x_size = image.length * (3 / 4) - y;
   return Math.round(x_size / 1024);
 }
-function onFileSelect() {
-  document.getElementById('filename').innerText =
-    document.getElementById('file').files[0].name;
+function onFileSelect(number) {
+  console.log(number);
+  document.getElementsByClassName('filename')[number].innerText =
+    document.getElementsByClassName('file')[number].files[0].name;
 }
 
-function openAlert() {
+function openAlert(number, text = 'please select an image') {
   clearTimeout(TIMEOUT);
-  document.getElementsByClassName('alert')[0].style.display = 'flex';
+  document.getElementsByClassName('alert')[number].style.display = 'flex';
+  document.getElementsByClassName('alert-text')[number].innerText = text;
+  console.log(number);
   TIMEOUT = setTimeout(() => {
-    closeAlert();
+    closeAlert(number);
   }, 3000);
 }
-function closeAlert() {
-  document.getElementsByClassName('alert')[0].style.display = 'none';
+function closeAlert(number) {
+  document.getElementsByClassName('alert')[number].style.display = 'none';
+}
+
+function initLoader(number) {
+  document.getElementsByClassName('loader')[number].style.display = 'flex';
+}
+function stopLoader(number) {
+  document.getElementsByClassName('loader')[number].style.display = 'none';
+}
+
+function openResize() {
+  document.getElementById('resize').classList.remove('hide');
+  document.getElementById('compress').classList.add('hide');
+
+  document.getElementById('resize-switch').classList.add('active');
+  document.getElementById('compress-switch').classList.remove('active');
+}
+function openCompress() {
+  document.getElementById('resize').classList.add('hide');
+  document.getElementById('compress').classList.remove('hide');
+
+  document.getElementById('compress-switch').classList.add('active');
+  document.getElementById('resize-switch').classList.remove('active');
 }
