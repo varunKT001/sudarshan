@@ -2,6 +2,10 @@
 * {
   box-sizing: border-box;
 }
+:root {
+  --theme: #2a93ec;
+}
+
 a {
   text-decoration: none;
   color: white;
@@ -13,7 +17,7 @@ button {
   font-weight: bold;
   letter-spacing: 2px;
   color: white;
-  background-color: #2a93ec;
+  background-color: var(--theme);
   transition: all 125ms linear;
 }
 button:hover {
@@ -33,21 +37,24 @@ body {
   font-family: 'Nunito Sans', sans-serif;
 }
 .loader {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
+}
+.loader img {
+  background-color: var(--theme);
 }
 .hide {
   display: none;
 }
 .active {
-  color: #2a93ec;
-  border-bottom: 3px solid #2a93ec;
+  color: var(--theme);
+  border-bottom: 3px solid var(--theme);
 }
 .underline {
   width: 3rem;
   height: 0.25rem;
-  background-color: #2a93ec;
+  background-color: var(--theme);
 }
 .switch-btn {
   margin: 2rem 0;
@@ -62,7 +69,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #2a93ec;
+  color: var(--theme);
 }
 .container {
   width: 30%;
@@ -94,7 +101,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 3px dashed #2a93ec;
+  border: 3px dashed var(--theme);
   border-radius: 0.25rem;
 }
 .form-control label[for='file1'] {
@@ -104,7 +111,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 3px dashed #2a93ec;
+  border: 3px dashed var(--theme);
   border-radius: 0.25rem;
 }
 .form-control label[for='file'] img {
@@ -124,8 +131,8 @@ body {
   padding: 0.25rem;
 }
 .form-control input:focus {
-  border: 1px solid #2a93ec;
-  outline: 2px solid #4e9ddf;
+  border: none;
+  outline: 2px solid var(--theme);
 }
 .checkbox-container {
   margin: 0.5rem 0;
