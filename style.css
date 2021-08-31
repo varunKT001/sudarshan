@@ -37,12 +37,9 @@ body {
   font-family: 'Nunito Sans', sans-serif;
 }
 .loader {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
-}
-.loader img {
-  background-color: var(--theme);
 }
 .hide {
   display: none;
