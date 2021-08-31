@@ -271,10 +271,19 @@ footer p {
     #bc1888 100%
   );
 }
+.rounded-social-buttons .social-button.github {
+  background: black;
+}
 
 .rounded-social-buttons .social-button.instagram:hover,
 .rounded-social-buttons .social-button.instagram:focus {
   color: #125688;
   background: #fefefe;
   border-color: #125688;
+}
+.rounded-social-buttons .social-button.github:hover,
+.rounded-social-buttons .social-button.github:focus {
+  color: #2ea44f;
+  background: #fefefe;
+  border-color: #2ea44f;
 }
